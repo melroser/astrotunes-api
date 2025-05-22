@@ -8,6 +8,10 @@ const nextConfig = {
   images: {
     unoptimized: false,
   },
+  api: {
+    bodyParser: true,
+    externalResolver: true,
+  },
 }
 
 module.exports = nextConfig
