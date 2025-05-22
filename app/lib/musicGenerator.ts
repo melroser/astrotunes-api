@@ -94,7 +94,7 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
   // Determine key and mode based on Sun sign
   const sunSign = sun.zodiac_sign.name.en as ZodiacSign;
   const key = SIGN_TO_KEY[sunSign] || 'C';
-  const mode = SIGN_TO_MODE[sunSign] || 'major' as ScaleMode;
+  const scaleMode = SIGN_TO_MODE[sunSign] as ScaleMode || 'major';
 
   // Determine tempo based on Ascendant element
   const ascendantSign = ascendant.zodiac_sign.name.en as ZodiacSign;
@@ -113,11 +113,11 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
   const rhythmIntensity = mars ? getRhythmIntensity(mars.zodiac_sign.name.en as ZodiacSign) : 'moderate';
 
   // Generate scale based on key and mode
-  const scale = getScale(key, mode);
+  const scale = getScale(key, scaleMode);
 
   return {
     key,
-    mode,
+    mode: scaleMode,
     tempo,
     melodyMood,
     instrument,
