@@ -116,24 +116,6 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
   };
 }
 
-function getElementForSign(sign: string): string {
-  const elements = {
-    'Aries': 'Fire',
-    'Taurus': 'Earth',
-    'Gemini': 'Air',
-    'Cancer': 'Water',
-    'Leo': 'Fire',
-    'Virgo': 'Earth',
-    'Libra': 'Air',
-    'Scorpio': 'Water',
-    'Sagittarius': 'Fire',
-    'Capricorn': 'Earth',
-    'Aquarius': 'Air',
-    'Pisces': 'Water'
-  };
-  return elements[sign] || 'Air';
-}
-
 function getMelodyMood(sign: string): string {
   const moods = {
     'Cancer': 'emotional',
