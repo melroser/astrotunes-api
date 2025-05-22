@@ -1,10 +1,25 @@
 import { NextResponse } from 'next/server';
 import { generateMusicFromAstro } from '../../lib/musicGenerator';
 
+// Define headers type
+interface Headers {
+  [key: string]: string;
+}
+
+// Handle CORS preflight requests
+export async function OPTIONS() {
+  const headers: Headers = {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+  };
+  return NextResponse.json({}, { headers });
+}
+
 export async function POST(request: Request) {
   try {
     // Add CORS headers
-    const headers = {
+    const headers: Headers = {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type, Authorization',
@@ -32,7 +47,7 @@ export async function POST(request: Request) {
     console.error('Error processing astro data:', error);
     return NextResponse.json(
       { error: 'Failed to process astrological data' },
-      { status: 500 }
+      { status: 500, headers }
     );
   }
 }
