@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 import { generateMusicFromAstro } from '../../lib/musicGenerator';
-import { headers } from 'next/headers';
 
 // Define headers type
 interface Headers {
