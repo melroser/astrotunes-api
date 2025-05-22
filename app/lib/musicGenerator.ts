@@ -116,16 +116,18 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
   };
 }
 
-function getMelodyMood(sign: string): string {
-  const moods = {
+type Mood = 'emotional' | 'intense' | 'dreamy' | 'dramatic' | 'energetic' | 'playful' | 'harmonious' | 'innovative' | 'adventurous' | 'grounded' | 'precise' | 'structured' | 'balanced';
+
+function getMelodyMood(sign: ZodiacSign): Mood {
+  const moods: Record<ZodiacSign, Mood> = {
     'Cancer': 'emotional',
     'Scorpio': 'intense',
     'Pisces': 'dreamy',
-    'Leo': 'bold',
+    'Leo': 'dramatic',
     'Aries': 'energetic',
     'Gemini': 'playful',
     'Libra': 'harmonious',
-    'Aquarius': 'ethereal',
+    'Aquarius': 'innovative',
     'Sagittarius': 'adventurous',
     'Taurus': 'grounded',
     'Virgo': 'precise',
