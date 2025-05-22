@@ -10,6 +10,7 @@ export interface AstroPlanet {
 }
 
 type ZodiacSign = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces';
+type Element = 'Fire' | 'Water' | 'Air' | 'Earth';
 
 // Music mapping constants
 const SIGN_TO_KEY: Record<ZodiacSign, string> = {
@@ -42,12 +43,31 @@ const SIGN_TO_MODE: Record<ZodiacSign, string> = {
   'Pisces': 'minor'
 };
 
-const ELEMENT_TO_TEMPO = {
+const ELEMENT_TO_TEMPO: Record<Element, number> = {
   'Fire': 120,  // Aries, Leo, Sagittarius
   'Water': 80,  // Cancer, Scorpio, Pisces
   'Air': 100,   // Gemini, Libra, Aquarius
   'Earth': 90    // Taurus, Virgo, Capricorn
 };
+
+const SIGN_TO_ELEMENT: Record<ZodiacSign, Element> = {
+  'Aries': 'Fire',
+  'Taurus': 'Earth',
+  'Gemini': 'Air',
+  'Cancer': 'Water',
+  'Leo': 'Fire',
+  'Virgo': 'Earth',
+  'Libra': 'Air',
+  'Scorpio': 'Water',
+  'Sagittarius': 'Fire',
+  'Capricorn': 'Earth',
+  'Aquarius': 'Air',
+  'Pisces': 'Water'
+};
+
+function getElementForSign(sign: ZodiacSign): Element {
+  return SIGN_TO_ELEMENT[sign];
+}
 
 export function generateMusicFromAstro(planets: AstroPlanet[]) {
   // Find key planets
