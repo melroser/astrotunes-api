@@ -1,0 +1,117 @@
+{
+  "statusCode": 200,
+  "output": [
+    {
+      "planet": {
+        "en": "Ascendant"
+      },
+      "fullDegree": 52.47594854455679,
+      "normDegree": 22.475948544556793,
+      "isRetro": "False",
+      "zodiac_sign": {
+        "number": 2,
+        "name": {
+          "en": "Taurus"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Sun"
+      },
+      "fullDegree": 342.4177799693512,
+      "normDegree": 12.417779969351216,
+      "isRetro": "False",
+      "zodiac_sign": {
+        "number": 12,
+        "name": {
+          "en": "Pisces"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Moon"
+      },
+      "fullDegree": 44.62719971491843,
+      "normDegree": 14.627199714918433,
+      "isRetro": "False",
+      "zodiac_sign": {
+        "number": 2,
+        "name": {
+          "en": "Taurus"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Mars"
+      },
+      "fullDegree": 358.86497748394817,
+      "normDegree": 28.864977483948167,
+      "isRetro": "false",
+      "zodiac_sign": {
+        "number": 12,
+        "name": {
+          "en": "Pisces"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Mercury"
+      },
+      "fullDegree": 350.26146390289045,
+      "normDegree": 20.261463902890455,
+      "isRetro": "false",
+      "zodiac_sign": {
+        "number": 12,
+        "name": {
+          "en": "Pisces"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Jupiter"
+      },
+      "fullDegree": 336.4401379781148,
+      "normDegree": 6.440137978114819,
+      "isRetro": "false",
+      "zodiac_sign": {
+        "number": 12,
+        "name": {
+          "en": "Pisces"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Venus"
+      },
+      "fullDegree": 298.9289671334072,
+      "normDegree": 28.928967133407184,
+      "isRetro": "false",
+      "zodiac_sign": {
+        "number": 10,
+        "name": {
+          "en": "Capricorn"
+        }
+      }
+    },
+    {
+      "planet": {
+        "en": "Saturn"
+      },
+      "fullDegree": 18.324790195019254,
+      "normDegree": 18.324790195019254,
+      "isRetro": "false",
+      "zodiac_sign": {
+        "number": 1,
+        "name": {
+          "en": "Aries"
+        }
+      }
+    }
+  ]
+}
