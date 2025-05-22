@@ -69,6 +69,18 @@ function getElementForSign(sign: ZodiacSign): Element {
   return SIGN_TO_ELEMENT[sign];
 }
 
+export interface AstroPlanet {
+  planet: {
+    en: string;
+  };
+  zodiac_sign: {
+    number: number;
+    name: {
+      en: string;
+    };
+  };
+}
+
 export function generateMusicFromAstro(planets: AstroPlanet[]) {
   // Find key planets
   const sun = planets.find(p => p.planet.en === 'Sun');
@@ -82,7 +94,7 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
   // Determine key and mode based on Sun sign
   const sunSign = sun.zodiac_sign.name.en as ZodiacSign;
   const key = SIGN_TO_KEY[sunSign] || 'C';
-  const mode = SIGN_TO_MODE[sunSign] || 'major';
+  const mode = SIGN_TO_MODE[sunSign] || 'major' as ScaleMode;
 
   // Determine tempo based on Ascendant element
   const ascendantSign = ascendant.zodiac_sign.name.en as ZodiacSign;
@@ -136,56 +148,65 @@ function getMelodyMood(sign: ZodiacSign): Mood {
   return moods[sign] || 'balanced';
 }
 
-function getInstrumentForSign(sign: string): string {
-  const instruments = {
+type Instrument = 'cello' | 'violin' | 'flute' | 'piano' | 'harmonica' | 'clarinet' | 'bass' | 'synthesizer' | 'drums' | 'guitar' | 'saxophone' | 'trumpet';
+
+function getInstrumentForSign(sign: ZodiacSign): Instrument {
+  const instruments: Record<'Venus', Record<ZodiacSign, Instrument>> = {
     'Venus': {
-      'Taurus': 'strings',
-      'Libra': 'piano',
-      'Pisces': 'synth',
-      'Gemini': 'guitar',
-      'Cancer': 'flute',
-      'Virgo': 'harp',
-      'Capricorn': 'cello',
-      'Aquarius': 'electric guitar',
+      'Taurus': 'cello',
+      'Libra': 'violin',
+      'Pisces': 'flute',
+      'Gemini': 'piano',
+      'Cancer': 'harmonica',
+      'Virgo': 'clarinet',
+      'Capricorn': 'bass',
+      'Aquarius': 'synthesizer',
       'Aries': 'drums',
-      'Leo': 'trumpet',
+      'Leo': 'guitar',
       'Sagittarius': 'saxophone',
-      'Scorpio': 'bass'
+      'Scorpio': 'trumpet'
     }
   };
   return instruments.Venus[sign] || 'piano';
 }
 
-function getRhythmIntensity(sign: string): string {
-  const intensities = {
-    'Aries': 'aggressive',
-    'Taurus': 'steady',
-    'Gemini': 'fast',
-    'Cancer': 'flowing',
-    'Leo': 'powerful',
-    'Virgo': 'precise',
-    'Libra': 'smooth',
-    'Scorpio': 'intense',
-    'Sagittarius': 'energetic',
-    'Capricorn': 'controlled',
-    'Aquarius': 'unpredictable',
-    'Pisces': 'floating'
+type RhythmIntensity = 'intense' | 'steady' | 'variable' | 'flowing' | 'powerful' | 'precise' | 'balanced' | 'passionate' | 'free-form' | 'structured' | 'experimental' | 'dreamy' | 'moderate';
+
+function getRhythmIntensity(sign: ZodiacSign): RhythmIntensity {
+  const rhythms: Record<'Mars', Record<ZodiacSign, RhythmIntensity>> = {
+    'Mars': {
+      'Aries': 'intense',
+      'Taurus': 'steady',
+      'Gemini': 'variable',
+      'Cancer': 'flowing',
+      'Leo': 'powerful',
+      'Virgo': 'precise',
+      'Libra': 'balanced',
+      'Scorpio': 'passionate',
+      'Sagittarius': 'free-form',
+      'Capricorn': 'structured',
+      'Aquarius': 'experimental',
+      'Pisces': 'dreamy'
+    }
   };
-  return intensities[sign] || 'moderate';
+  return rhythms.Mars[sign] || 'moderate';
 }
 
-function getScale(key: string, mode: string): string[] {
-  const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
-  const scalePatterns = {
+type ScaleMode = 'major' | 'minor';
+type Scale = string[];
+
+function getScale(key: string, mode: ScaleMode): Scale {
+  const intervals: Record<ScaleMode, number[]> = {
     'major': [0, 2, 4, 5, 7, 9, 11],
     'minor': [0, 2, 3, 5, 7, 8, 10]
   };
+  const notes = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B'];
+  const scale: Scale = [];
+  const rootIndex = notes.indexOf(key);
+  if (rootIndex === -1) return ['C', 'D', 'E', 'F', 'G', 'A', 'B'];
 
-  const startIndex = notes.indexOf(key);
-  const pattern = scalePatterns[mode];
-  
-  return pattern.map(interval => {
-    const noteIndex = (startIndex + interval) % 12;
-    return notes[noteIndex];
-  });
+  for (const interval of intervals[mode]) {
+    scale.push(notes[(rootIndex + interval) % 12]);
+  }
+  return scale;
 }
