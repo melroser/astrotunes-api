@@ -9,8 +9,10 @@ export interface AstroPlanet {
   };
 }
 
+type ZodiacSign = 'Aries' | 'Taurus' | 'Gemini' | 'Cancer' | 'Leo' | 'Virgo' | 'Libra' | 'Scorpio' | 'Sagittarius' | 'Capricorn' | 'Aquarius' | 'Pisces';
+
 // Music mapping constants
-const SIGN_TO_KEY = {
+const SIGN_TO_KEY: Record<ZodiacSign, string> = {
   'Aries': 'C',
   'Taurus': 'D',
   'Gemini': 'E',
@@ -25,7 +27,7 @@ const SIGN_TO_KEY = {
   'Pisces': 'A#'
 };
 
-const SIGN_TO_MODE = {
+const SIGN_TO_MODE: Record<ZodiacSign, string> = {
   'Aries': 'major',
   'Taurus': 'major',
   'Gemini': 'major',
@@ -50,31 +52,36 @@ const ELEMENT_TO_TEMPO = {
 export function generateMusicFromAstro(planets: AstroPlanet[]) {
   // Find key planets
   const sun = planets.find(p => p.planet.en === 'Sun');
-  const moon = planets.find(p => p.planet.en === 'Moon');
   const ascendant = planets.find(p => p.planet.en === 'Ascendant');
-  const venus = planets.find(p => p.planet.en === 'Venus');
-  const mars = planets.find(p => p.planet.en === 'Mars');
 
-  if (!sun || !moon || !ascendant || !venus || !mars) {
-    throw new Error('Missing required planets');
+  // Validate required planets
+  if (!sun || !ascendant) {
+    throw new Error('Sun and Ascendant positions are required');
   }
 
   // Determine key and mode based on Sun sign
-  const key = SIGN_TO_KEY[sun.zodiac_sign.name.en] || 'C';
-  const mode = SIGN_TO_MODE[sun.zodiac_sign.name.en] || 'major';
+  const sunSign = sun.zodiac_sign.name.en as ZodiacSign;
+  const key = SIGN_TO_KEY[sunSign] || 'C';
+  const mode = SIGN_TO_MODE[sunSign] || 'major';
 
   // Determine tempo based on Ascendant element
-  const element = getElementForSign(ascendant.zodiac_sign.name.en);
-  const tempo = ELEMENT_TO_TEMPO[element] || 100;
+  const ascendantSign = ascendant.zodiac_sign.name.en as ZodiacSign;
+  const tempo = ELEMENT_TO_TEMPO[getElementForSign(ascendantSign)] || 100;
 
   // Determine melody mood based on Moon sign
-  const melodyMood = getMelodyMood(moon.zodiac_sign.name.en);
+  const moon = planets.find(p => p.planet.en === 'Moon');
+  const melodyMood = moon ? getMelodyMood(moon.zodiac_sign.name.en as ZodiacSign) : 'neutral';
 
   // Determine instrument based on Venus sign
-  const instrument = getInstrumentForSign(venus.zodiac_sign.name.en);
+  const venus = planets.find(p => p.planet.en === 'Venus');
+  const instrument = venus ? getInstrumentForSign(venus.zodiac_sign.name.en as ZodiacSign) : 'piano';
 
   // Determine rhythm intensity based on Mars sign
-  const rhythmIntensity = getRhythmIntensity(mars.zodiac_sign.name.en);
+  const mars = planets.find(p => p.planet.en === 'Mars');
+  const rhythmIntensity = mars ? getRhythmIntensity(mars.zodiac_sign.name.en as ZodiacSign) : 'moderate';
+
+  // Generate scale based on key and mode
+  const scale = getScale(key, mode);
 
   return {
     key,
@@ -83,10 +90,9 @@ export function generateMusicFromAstro(planets: AstroPlanet[]) {
     melodyMood,
     instrument,
     rhythmIntensity,
-    // Add more musical parameters as needed
-    duration: 180,  // 3 minutes
+    duration: 180, // seconds
     timeSignature: '4/4',
-    scale: getScale(key, mode)
+    scale
   };
 }
 
